@@ -6,9 +6,15 @@ import { UIScene } from './scenes/UIScene'
 
 new Phaser.Game({
   type: Phaser.AUTO,
-  width: GAME_WIDTH,
-  height: GAME_HEIGHT,
   parent: 'game',
   backgroundColor: '#101018',
+  // FIT: il canvas si adatta allo schermo mantenendo le proporzioni 16:10,
+  // con bande nere dove serve. Le coordinate di gioco restano 960x600.
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
+  },
   scene: [BootScene, RoomScene, UIScene],
 })
