@@ -1,0 +1,7 @@
+# Allowlist: nel contesto di build entra solo ciò che serve al backend.
+*
+!package.json
+!package-lock.json
+!backend/package.json
+!backend/tsconfig.json
+!backend/src

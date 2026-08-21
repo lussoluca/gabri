@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1a3a"/>
+      <stop offset="0.6" stop-color="#7a3a3a"/>
+      <stop offset="1" stop-color="#c9703a"/>
+    </linearGradient>
+    <linearGradient id="street" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a5048"/>
+      <stop offset="1" stop-color="#38322c"/>
+    </linearGradient>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a7a62"/>
+      <stop offset="1" stop-color="#6a5a45"/>
+    </linearGradient>
+    <radialGradient id="winglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffcc55" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#ffcc55" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- cielo al tramonto -->
+  <rect width="960" height="390" fill="url(#sky)"/>
+  <circle cx="820" cy="120" r="26" fill="#f5d5a0" opacity="0.9"/>
+  <g fill="#3a2a45" opacity="0.8">
+    <ellipse cx="200" cy="70" rx="90" ry="12"/>
+    <ellipse cx="550" cy="45" rx="120" ry="10"/>
+    <ellipse cx="760" cy="90" rx="70" ry="9"/>
+  </g>
+
+  <!-- skyline sullo sfondo -->
+  <g fill="#241a28">
+    <rect x="0" y="200" width="120" height="190"/>
+    <path d="M 0 200 L 60 170 L 120 200 Z"/>
+    <rect x="140" y="230" width="90" height="160"/>
+    <path d="M 140 230 L 185 205 L 230 230 Z"/>
+    <rect x="700" y="210" width="110" height="180"/>
+    <path d="M 700 210 L 755 180 L 810 210 Z"/>
+    <rect x="830" y="240" width="130" height="150"/>
+  </g>
+  <g fill="#ffcc55" opacity="0.85">
+    <rect x="25" y="230" width="14" height="18"/>
+    <rect x="70" y="260" width="14" height="18"/>
+    <rect x="165" y="255" width="12" height="16"/>
+    <rect x="730" y="240" width="14" height="18"/>
+    <rect x="770" y="280" width="14" height="18"/>
+    <rect x="870" y="270" width="12" height="16"/>
+  </g>
+
+  <!-- magazzino (edificio in pietra, porta = hotspot 520,240 90x180) -->
+  <g>
+    <rect x="440" y="150" width="260" height="240" fill="url(#stone)"/>
+    <path d="M 430 150 L 570 100 L 710 150 Z" fill="#4a3a28"/>
+    <g stroke="#5a4a38" stroke-width="1.5" opacity="0.7">
+      <line x1="440" y1="190" x2="700" y2="190"/>
+      <line x1="440" y1="230" x2="700" y2="230"/>
+      <line x1="440" y1="270" x2="700" y2="270"/>
+      <line x1="440" y1="310" x2="700" y2="310"/>
+      <line x1="440" y1="350" x2="700" y2="350"/>
+      <line x1="500" y1="190" x2="500" y2="230"/>
+      <line x1="640" y1="190" x2="640" y2="230"/>
+      <line x1="480" y1="270" x2="480" y2="310"/>
+      <line x1="660" y1="310" x2="660" y2="350"/>
+    </g>
+    <text x="570" y="140" font-family="serif" font-size="16" fill="#c9b370" text-anchor="middle">MAGAZZINO</text>
+    <!-- porta -->
+    <rect x="516" y="236" width="98" height="186" fill="#241808"/>
+    <rect x="522" y="242" width="86" height="180" fill="#4a3218"/>
+    <g stroke="#2a1c0d" stroke-width="2">
+      <line x1="544" y1="242" x2="544" y2="422"/>
+      <line x1="565" y1="242" x2="565" y2="422"/>
+      <line x1="586" y1="242" x2="586" y2="422"/>
+    </g>
+    <g fill="#1a1a1a">
+      <rect x="522" y="270" width="86" height="8"/>
+      <rect x="522" y="380" width="86" height="8"/>
+    </g>
+    <circle cx="598" cy="335" r="6" fill="#c9b370"/>
+    <rect x="595" y="335" width="6" height="12" fill="#c9b370"/>
+    <!-- finestra con inferriata -->
+    <rect x="630" y="250" width="44" height="36" fill="#141414"/>
+    <g stroke="#3a3a3a" stroke-width="3">
+      <line x1="641" y1="250" x2="641" y2="286"/>
+      <line x1="652" y1="250" x2="652" y2="286"/>
+      <line x1="663" y1="250" x2="663" y2="286"/>
+    </g>
+  </g>
+
+  <!-- bottega a sinistra -->
+  <g>
+    <rect x="240" y="220" width="170" height="170" fill="#6a4a3a"/>
+    <path d="M 232 220 L 325 180 L 418 220 Z" fill="#3a2820"/>
+    <rect x="262" y="250" width="50" height="60" fill="#141414"/>
+    <circle cx="287" cy="280" r="24" fill="url(#winglow)"/>
+    <rect x="262" y="250" width="50" height="60" fill="none" stroke="#241808" stroke-width="4"/>
+    <line x1="287" y1="250" x2="287" y2="310" stroke="#241808" stroke-width="3"/>
+    <line x1="262" y1="280" x2="312" y2="280" stroke="#241808" stroke-width="3"/>
+    <!-- tenda -->
+    <path d="M 250 330 L 405 330 L 395 355 Q 385 348 375 355 Q 365 348 355 355 Q 345 348 335 355 Q 325 348 315 355 Q 305 348 295 355 Q 285 348 275 355 Q 265 348 260 355 Z" fill="#8a3a30"/>
+    <rect x="330" y="330" width="60" height="60" fill="#241808"/>
+  </g>
+
+  <!-- strada acciottolata (walkbox 30,380 900x60) -->
+  <rect y="372" width="960" height="68" fill="url(#street)"/>
+  <g fill="#4a423a" opacity="0.8">
+    <ellipse cx="80" cy="395" rx="22" ry="6"/>
+    <ellipse cx="180" cy="415" rx="24" ry="7"/>
+    <ellipse cx="290" cy="392" rx="20" ry="6"/>
+    <ellipse cx="400" cy="420" rx="26" ry="7"/>
+    <ellipse cx="520" cy="398" rx="22" ry="6"/>
+    <ellipse cx="640" cy="418" rx="24" ry="7"/>
+    <ellipse cx="750" cy="393" rx="20" ry="6"/>
+    <ellipse cx="860" cy="412" rx="26" ry="7"/>
+    <ellipse cx="130" cy="430" rx="20" ry="6"/>
+    <ellipse cx="580" cy="432" rx="22" ry="6"/>
+    <ellipse cx="920" cy="428" rx="18" ry="6"/>
+  </g>
+
+  <!-- lampione -->
+  <g>
+    <rect x="806" y="280" width="8" height="100" fill="#1a1a1a"/>
+    <circle cx="810" cy="268" r="34" fill="url(#winglow)"/>
+    <rect x="799" y="256" width="22" height="26" rx="4" fill="#1a1a1a"/>
+    <rect x="804" y="261" width="12" height="17" fill="#ffcc55"/>
+  </g>
+
+  <!-- casse accatastate -->
+  <g fill="#5a4228" stroke="#2a1c0d" stroke-width="2">
+    <rect x="120" y="340" width="52" height="46"/>
+    <rect x="172" y="352" width="44" height="34"/>
+    <rect x="138" y="302" width="44" height="38"/>
+  </g>
+  <g stroke="#2a1c0d" stroke-width="1.5">
+    <line x1="120" y1="363" x2="172" y2="363"/>
+    <line x1="138" y1="321" x2="182" y2="321"/>
+  </g>
+
+  <!-- uscita verso il molo (hotspot 0,220 50x260) -->
+  <g>
+    <rect x="0" y="220" width="48" height="170" fill="#101820"/>
+    <path d="M 0 220 L 48 220 L 24 195 Z" fill="#182430"/>
+    <text x="24" y="250" font-family="serif" font-size="13" fill="#c9b370" text-anchor="middle">MOLO</text>
+    <path d="M 34 262 L 14 262 L 14 256 L 4 266 L 14 276 L 14 270 L 34 270 Z" fill="#c9b370"/>
+  </g>
+</svg>

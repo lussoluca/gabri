@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1030"/>
+      <stop offset="0.7" stop-color="#1d3a5a"/>
+      <stop offset="1" stop-color="#2a5a6a"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a4a5a"/>
+      <stop offset="1" stop-color="#0d2535"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6a4a2a"/>
+      <stop offset="1" stop-color="#3a2815"/>
+    </linearGradient>
+    <radialGradient id="moonglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fffbe0" stop-opacity="0.9"/>
+      <stop offset="0.3" stop-color="#fffbe0" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#fffbe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lampglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffcc55" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#ffcc55" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- cielo -->
+  <rect width="960" height="290" fill="url(#sky)"/>
+  <circle cx="150" cy="80" r="60" fill="url(#moonglow)"/>
+  <circle cx="150" cy="80" r="28" fill="#f5f0d5"/>
+  <circle cx="142" cy="72" r="5" fill="#ddd8c0"/>
+  <circle cx="160" cy="88" r="4" fill="#ddd8c0"/>
+  <g fill="#ffffff">
+    <circle cx="320" cy="50" r="1.5"/><circle cx="420" cy="90" r="1"/>
+    <circle cx="520" cy="40" r="1.5"/><circle cx="640" cy="70" r="1"/>
+    <circle cx="720" cy="35" r="1.5"/><circle cx="840" cy="60" r="1"/>
+    <circle cx="900" cy="100" r="1.5"/><circle cx="380" cy="130" r="1"/>
+    <circle cx="580" cy="115" r="1"/><circle cx="780" cy="120" r="1.5"/>
+  </g>
+
+  <!-- nave all'orizzonte -->
+  <g fill="#0a1525">
+    <path d="M 760 250 L 900 250 L 880 270 L 780 270 Z"/>
+    <rect x="820" y="180" width="6" height="70"/>
+    <path d="M 826 185 L 880 225 L 826 225 Z" fill="#101d30"/>
+    <path d="M 814 190 L 770 225 L 814 225 Z" fill="#101d30"/>
+  </g>
+
+  <!-- mare -->
+  <rect y="270" width="960" height="115" fill="url(#sea)"/>
+  <g stroke="#4a8a9a" stroke-width="1.5" opacity="0.5">
+    <line x1="60" y1="290" x2="180" y2="290"/>
+    <line x1="300" y1="305" x2="390" y2="305"/>
+    <line x1="600" y1="288" x2="700" y2="288"/>
+    <line x1="140" y1="320" x2="230" y2="320"/>
+    <line x1="700" y1="315" x2="820" y2="315"/>
+  </g>
+  <ellipse cx="150" cy="300" rx="50" ry="10" fill="#fffbe0" opacity="0.12"/>
+
+  <!-- passerella rialzata (walkbox centrale 520-660, da y350) -->
+  <g>
+    <rect x="510" y="342" width="160" height="16" fill="#5a3d20" rx="2"/>
+    <rect x="510" y="358" width="160" height="82" fill="url(#wood)"/>
+    <g stroke="#2a1c0d" stroke-width="2">
+      <line x1="530" y1="358" x2="530" y2="440"/>
+      <line x1="560" y1="358" x2="560" y2="440"/>
+      <line x1="590" y1="358" x2="590" y2="440"/>
+      <line x1="620" y1="358" x2="620" y2="440"/>
+      <line x1="650" y1="358" x2="650" y2="440"/>
+    </g>
+    <!-- scalette laterali -->
+    <path d="M 510 358 L 480 440 L 510 440 Z" fill="#4a3218"/>
+    <path d="M 670 358 L 700 440 L 670 440 Z" fill="#4a3218"/>
+  </g>
+
+  <!-- banchina in legno (walkbox sinistro e destro, y390-440) -->
+  <rect y="382" width="960" height="14" fill="#5a3d20"/>
+  <rect y="396" width="960" height="44" fill="url(#wood)"/>
+  <g stroke="#2a1c0d" stroke-width="2">
+    <line x1="80" y1="396" x2="80" y2="440"/>
+    <line x1="160" y1="396" x2="160" y2="440"/>
+    <line x1="240" y1="396" x2="240" y2="440"/>
+    <line x1="320" y1="396" x2="320" y2="440"/>
+    <line x1="400" y1="396" x2="400" y2="440"/>
+    <line x1="720" y1="396" x2="720" y2="440"/>
+    <line x1="800" y1="396" x2="800" y2="440"/>
+    <line x1="880" y1="396" x2="880" y2="440"/>
+  </g>
+  <line x1="0" y1="396" x2="960" y2="396" stroke="#7a5a35" stroke-width="2"/>
+
+  <!-- pali d'ormeggio -->
+  <g fill="#3a2815" stroke="#241808" stroke-width="1">
+    <rect x="30" y="330" width="14" height="66" rx="3"/>
+    <rect x="330" y="340" width="14" height="56" rx="3"/>
+    <rect x="930" y="330" width="14" height="66" rx="3"/>
+  </g>
+  <path d="M 37 340 Q 180 380 337 350" stroke="#8a7a5a" stroke-width="2" fill="none"/>
+
+  <!-- barile (hotspot 430,300 90x110) -->
+  <g>
+    <ellipse cx="475" cy="404" rx="45" ry="10" fill="#000" opacity="0.35"/>
+    <path d="M 434 315 Q 430 355 434 400 L 516 400 Q 520 355 516 315 Z" fill="#7a5228"/>
+    <ellipse cx="475" cy="313" rx="41" ry="10" fill="#8a6238"/>
+    <ellipse cx="475" cy="313" rx="33" ry="7" fill="#5a3d20"/>
+    <g stroke="#3a2815" stroke-width="2" fill="none">
+      <path d="M 452 314 Q 448 355 452 400"/>
+      <path d="M 475 316 Q 475 355 475 400"/>
+      <path d="M 498 314 Q 502 355 498 400"/>
+    </g>
+    <g stroke="#2a2a2a" stroke-width="4" fill="none">
+      <path d="M 433 330 Q 475 340 517 330"/>
+      <path d="M 433 380 Q 475 390 517 380"/>
+    </g>
+  </g>
+
+  <!-- vedetta: lampione e pedana (hotspot 700,260 60x150) -->
+  <g>
+    <rect x="756" y="270" width="8" height="126" fill="#2a2a2a"/>
+    <circle cx="760" cy="258" r="30" fill="url(#lampglow)"/>
+    <rect x="750" y="248" width="20" height="24" rx="4" fill="#1a1a1a" stroke="#000"/>
+    <rect x="754" y="252" width="12" height="16" fill="#ffcc55"/>
+    <ellipse cx="730" cy="404" rx="42" ry="9" fill="#000" opacity="0.3"/>
+  </g>
+
+  <!-- uscita verso la città (hotspot 900,220 60x260) -->
+  <g>
+    <rect x="912" y="220" width="48" height="176" fill="#101820"/>
+    <path d="M 912 220 L 960 200 L 960 220 Z" fill="#182430"/>
+    <text x="936" y="250" font-family="serif" font-size="13" fill="#c9b370" text-anchor="middle">CITTÀ</text>
+    <path d="M 928 262 L 948 262 L 948 256 L 958 266 L 948 276 L 948 270 L 928 270 Z" fill="#c9b370"/>
+  </g>
+</svg>

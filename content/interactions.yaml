@@ -1,0 +1,57 @@
+# Regole di interazione: il motore prende la PRIMA regola che matcha
+# (verbo, oggetto?, target) con tutte le condizioni vere.
+# Metti quindi le regole condizionate PRIMA dei default.
+#
+# Verbi: guarda, prendi, usa, parla, vai.
+# Condizioni: {flag: "nome == valore"} oppure {has_item: id_oggetto}.
+# Azioni: say, set_flag, add_item, remove_item, goto_room, dialogo.
+
+- verbo: guarda
+  target: barile
+  condizioni:
+    - flag: indizio_chiave == true
+    - flag: chiave_trovata != true
+  azioni:
+    - say: "Frugo nel grog... c'è una chiave arrugginita sul fondo!"
+    - set_flag: chiave_trovata = true
+    - add_item: chiave_arrugginita
+
+- verbo: parla
+  target: vedetta
+  azioni:
+    - dialogo: vedetta
+
+- verbo: usa
+  oggetto: chiave_arrugginita
+  target: porta_magazzino
+  condizioni:
+    - flag: porta_aperta != true
+  azioni:
+    - set_flag: porta_aperta = true
+    - remove_item: chiave_arrugginita
+    - say: "La serratura scatta con uno scricchiolio. La porta è aperta."
+
+- verbo: vai
+  target: porta_magazzino
+  condizioni:
+    - flag: porta_aperta == true
+  azioni:
+    - goto_room: magazzino
+
+- verbo: vai
+  target: porta_magazzino
+  azioni:
+    - say: "È chiusa a chiave."
+
+- verbo: prendi
+  target: tesoro
+  condizioni:
+    - flag: demo_completata == true
+  azioni:
+    - say: "Li ho già presi, non c'è più nulla da fare qui."
+
+- verbo: prendi
+  target: tesoro
+  azioni:
+    - say: "Dobloni! Sono ricco! (Fine della demo.)"
+    - set_flag: demo_completata = true

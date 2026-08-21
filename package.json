@@ -1,0 +1,19 @@
+{
+  "name": "gabri",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "content": "node scripts/build-content.mjs",
+    "content:watch": "node --watch-path=content scripts/build-content.mjs",
+    "dev:frontend": "npm run content && npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run content && npm run build --workspace frontend && npm run build --workspace backend"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

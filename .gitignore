@@ -1,0 +1,7 @@
+node_modules/
+dist/
+frontend/public/content/
+.DS_Store
+*.log
+.playwright-cli/
+traces/

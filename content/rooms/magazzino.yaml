@@ -1,0 +1,17 @@
+id: magazzino
+nome: Il magazzino
+color: "#26203a"
+background: magazzino.svg
+player_start: [480, 430]
+walkboxes:
+  - [30, 380, 900, 60]
+depth_scale: { min_y: 380, max_y: 440, min: 0.85, max: 1.0 }
+hotspots:
+  - id: tesoro
+    nome: Baule del tesoro
+    rect: [430, 300, 110, 90]
+    descrizione: "Un baule di legno massiccio, borchiato d'ottone."
+  - id: uscita_citta2
+    nome: Verso la città
+    rect: [0, 220, 50, 260]
+    porta_a: citta
