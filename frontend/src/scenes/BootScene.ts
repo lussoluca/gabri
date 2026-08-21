@@ -16,7 +16,9 @@ export class BootScene extends Phaser.Scene {
 
     // no-store: i contenuti cambiano spesso durante la scrittura della storia,
     // una copia in cache del browser farebbe giocare una versione vecchia.
-    const res = await fetch('/content/game.json', { cache: 'no-store' })
+    const res = await fetch(`${import.meta.env.BASE_URL}content/game.json`, {
+      cache: 'no-store',
+    })
     const content: GameContent = await res.json()
 
     const engine = new GameEngine(content)
@@ -31,7 +33,10 @@ export class BootScene extends Phaser.Scene {
     const withBg = Object.values(content.rooms).filter((r) => r.background)
     if (withBg.length > 0) {
       for (const room of withBg) {
-        this.load.image(`bg-${room.id}`, `/bg/${room.background}`)
+        this.load.image(
+          `bg-${room.id}`,
+          `${import.meta.env.BASE_URL}bg/${room.background}`,
+        )
       }
       this.load.once('complete', () => this.startGame())
       this.load.start()
