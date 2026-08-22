@@ -27,10 +27,14 @@ Vite fa da proxy di `/api` verso il backend locale.
 ## Modello dati della storia
 
 Il modello segue SCUMM: l'input del giocatore è sempre una tripla
-`(verbo, oggetto?, bersaglio)`. Verbi: `guarda`, `prendi`, `usa`, `parla`, `vai`.
+`(verb, object?, target)`. Verbi: `look`, `take`, `use`, `talk`, `walk`.
+
+Convenzione linguistica: identificatori, chiavi dello schema, flag e nomi dei
+verbi in inglese; i testi mostrati al giocatore (`say`, `name`, `description`,
+etichette dei verbi in interfaccia) in italiano.
 
 - **Stanza** (`content/rooms/*.yaml`): sfondo, hotspot cliccabili con
-  rettangolo, descrizione, eventuale uscita (`porta_a`). `walkboxes` è la
+  rettangolo, descrizione, eventuale uscita (`leads_to`). `walkboxes` è la
   lista dei rettangoli calpestabili: il personaggio si muove solo lì dentro e
   il percorso tra box adiacenti viene calcolato automaticamente (BFS sul
   grafo di adiacenza, waypoint sui bordi condivisi). `depth_scale` scala il
@@ -38,10 +42,10 @@ Il modello segue SCUMM: l'input del giocatore è sempre una tripla
   piccolo). Senza `walkboxes` il movimento è libero in orizzontale.
 - **Oggetti** (`content/items.yaml`): gli oggetti raccoglibili dell'inventario.
 - **Interazioni** (`content/interactions.yaml`): regole
-  `verbo + oggetto? + target + condizioni -> azioni`. Vince la prima regola che
+  `verb + object? + target + conditions -> actions`. Vince la prima regola che
   matcha, quindi le regole condizionate vanno prima dei default. Azioni
   disponibili: `say`, `set_flag`, `add_item`, `remove_item`, `goto_room`,
-  `dialogo`.
+  `dialogue`.
 - **Dialoghi** (`content/dialogues/*.ink`): scritti in
   [Ink](https://www.inklestudios.com/ink/), eseguiti nel browser con `inkjs`.
   Un tag Ink come `# set_flag: indizio = true` viene eseguito come azione del

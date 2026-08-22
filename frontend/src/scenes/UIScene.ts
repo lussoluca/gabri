@@ -4,7 +4,7 @@ import { GAME_HEIGHT, GAME_WIDTH, ROOM_HEIGHT } from '../config'
 import type { GameEngine } from '../engine/engine'
 import { loadGame, saveGame } from '../engine/saves'
 import type { Selection, Verb } from '../engine/types'
-import { DEFAULT_VERB, VERBS } from '../engine/types'
+import { DEFAULT_VERB, VERBS, VERB_LABELS } from '../engine/types'
 
 const UI_TOP = ROOM_HEIGHT
 const SAVE_SLOT = 'default'
@@ -62,10 +62,10 @@ export class UIScene extends Phaser.Scene {
   }
 
   private updateSentence() {
-    const parts: string[] = [capitalize(this.selection.verb)]
+    const parts: string[] = [VERB_LABELS[this.selection.verb]]
     if (this.selection.item) {
       const item = this.engine.content.items[this.selection.item]
-      parts.push(item?.nome ?? this.selection.item, 'con')
+      parts.push(item?.name ?? this.selection.item, 'con')
     }
     if (this.hoverName) parts.push(this.hoverName)
     this.sentence.setText(parts.join(' '))
@@ -74,7 +74,7 @@ export class UIScene extends Phaser.Scene {
   private createVerbBar() {
     VERBS.forEach((verb, i) => {
       const btn = this.add
-        .text(12 + i * 110, UI_TOP + 44, verb.toUpperCase(), {
+        .text(12 + i * 110, UI_TOP + 44, VERB_LABELS[verb].toUpperCase(), {
           color: '#ffffff',
           fontSize: '18px',
           backgroundColor: '#333355',
@@ -108,9 +108,9 @@ export class UIScene extends Phaser.Scene {
         fontSize: '14px',
       }),
     )
-    this.engine.state.inventario.forEach((itemId, i) => {
+    this.engine.state.inventory.forEach((itemId, i) => {
       const item = this.engine.content.items[itemId]
-      const nome = item?.nome ?? itemId
+      const nome = item?.name ?? itemId
       const selected = this.selection.item === itemId
       const txt = this.add
         .text(110 + i * 180, UI_TOP + 88, nome, {
@@ -128,13 +128,13 @@ export class UIScene extends Phaser.Scene {
   }
 
   private onItemClick(itemId: string) {
-    if (this.selection.verb === 'usa') {
+    if (this.selection.verb === 'use') {
       // "Usa X con Y": seleziona l'oggetto, poi clic sul bersaglio.
       this.selection.item = this.selection.item === itemId ? null : itemId
     } else {
       // Sull'inventario "vai" non ha senso: il default diventa "guarda".
       const verb =
-        this.selection.verb === DEFAULT_VERB ? 'guarda' : this.selection.verb
+        this.selection.verb === DEFAULT_VERB ? 'look' : this.selection.verb
       this.engine.interact(verb, itemId)
       this.selection.verb = DEFAULT_VERB
       this.selection.item = null
@@ -275,8 +275,4 @@ export class UIScene extends Phaser.Scene {
     this.clearChoices()
     this.dialogueOverlay.setVisible(false)
   }
-}
-
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }

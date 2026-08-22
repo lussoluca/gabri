@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { GameEngine } from '../engine/engine'
 import type { GameContent, Selection } from '../engine/types'
+import { DEFAULT_VERB } from '../engine/types'
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -22,7 +23,7 @@ export class BootScene extends Phaser.Scene {
     const content: GameContent = await res.json()
 
     const engine = new GameEngine(content)
-    const selection: Selection = { verb: 'guarda', item: null }
+    const selection: Selection = { verb: DEFAULT_VERB, item: null }
     this.registry.set('engine', engine)
     this.registry.set('selection', selection)
     // Hook di debug per test end-to-end (Playwright) e console del browser.

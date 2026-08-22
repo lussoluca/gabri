@@ -1,4 +1,3 @@
-import Phaser from 'phaser'
 import type {
   Action,
   Condition,
@@ -8,8 +7,41 @@ import type {
   Rule,
 } from './types'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Listener = (...args: any[]) => void
+
+// Emitter minimale: il motore non dipende da Phaser, così gira anche
+// headless (test in Node).
+class Emitter {
+  private listeners = new Map<string, Set<Listener>>()
+
+  on(event: string, fn: Listener) {
+    if (!this.listeners.has(event)) this.listeners.set(event, new Set())
+    this.listeners.get(event)!.add(fn)
+    return this
+  }
+
+  once(event: string, fn: Listener) {
+    const wrapper: Listener = (...args) => {
+      this.off(event, wrapper)
+      fn(...args)
+    }
+    return this.on(event, wrapper)
+  }
+
+  off(event: string, fn: Listener) {
+    this.listeners.get(event)?.delete(fn)
+    return this
+  }
+
+  emit(event: string, ...args: unknown[]) {
+    for (const fn of [...(this.listeners.get(event) ?? [])]) fn(...args)
+    return this
+  }
+}
+
 // Eventi emessi: 'say' (string), 'room' (roomId), 'inventory', 'dialogue' (nome), 'state'.
-export class GameEngine extends Phaser.Events.EventEmitter {
+export class GameEngine extends Emitter {
   readonly content: GameContent
   state: GameState
   // Stanza di provenienza dell'ultimo cambio stanza: serve per far comparire
@@ -21,7 +53,7 @@ export class GameEngine extends Phaser.Events.EventEmitter {
     this.content = content
     this.state = saved ?? {
       room: content.start.room,
-      inventario: [],
+      inventory: [],
       flags: {},
     }
   }
@@ -37,26 +69,26 @@ export class GameEngine extends Phaser.Events.EventEmitter {
     this.emit('room', saved.room)
   }
 
-  interact(verbo: string, targetId: string, oggettoId?: string) {
-    const rule = this.findRule(verbo, targetId, oggettoId)
+  interact(verb: string, targetId: string, objectId?: string) {
+    const rule = this.findRule(verb, targetId, objectId)
     if (rule) {
-      this.runActions(rule.azioni)
+      this.runActions(rule.actions)
       return
     }
-    this.defaultResponse(verbo, targetId, oggettoId)
+    this.defaultResponse(verb, targetId, objectId)
   }
 
   private findRule(
-    verbo: string,
+    verb: string,
     target: string,
-    oggetto?: string,
+    object?: string,
   ): Rule | undefined {
     return this.content.interactions.find(
       (r) =>
-        r.verbo === verbo &&
+        r.verb === verb &&
         r.target === target &&
-        (r.oggetto ?? null) === (oggetto ?? null) &&
-        (r.condizioni ?? []).every((c) => this.evalCondition(c)),
+        (r.object ?? null) === (object ?? null) &&
+        (r.conditions ?? []).every((c) => this.evalCondition(c)),
     )
   }
 
@@ -69,12 +101,12 @@ export class GameEngine extends Phaser.Events.EventEmitter {
       const current = this.state.flags[name] ?? false
       return op === '==' ? current === value : current !== value
     }
-    if (cond.has_item) return this.state.inventario.includes(cond.has_item)
+    if (cond.has_item) return this.state.inventory.includes(cond.has_item)
     return true
   }
 
-  runActions(azioni: Action[]) {
-    for (const a of azioni) this.runAction(a)
+  runActions(actions: Action[]) {
+    for (const a of actions) this.runAction(a)
   }
 
   runAction(a: Action) {
@@ -85,12 +117,12 @@ export class GameEngine extends Phaser.Events.EventEmitter {
       else this.state.flags[a.set_flag.trim()] = true
       this.emit('state')
     }
-    if (a.add_item && !this.state.inventario.includes(a.add_item)) {
-      this.state.inventario.push(a.add_item)
+    if (a.add_item && !this.state.inventory.includes(a.add_item)) {
+      this.state.inventory.push(a.add_item)
       this.emit('inventory')
     }
     if (a.remove_item) {
-      this.state.inventario = this.state.inventario.filter(
+      this.state.inventory = this.state.inventory.filter(
         (i) => i !== a.remove_item,
       )
       this.emit('inventory')
@@ -100,39 +132,36 @@ export class GameEngine extends Phaser.Events.EventEmitter {
       this.state.room = a.goto_room
       this.emit('room', a.goto_room)
     }
-    if (a.dialogo) this.emit('dialogue', a.dialogo)
+    if (a.dialogue) this.emit('dialogue', a.dialogue)
   }
 
-  private defaultResponse(verbo: string, targetId: string, oggettoId?: string) {
+  private defaultResponse(verb: string, targetId: string, objectId?: string) {
     const hotspot = this.room.hotspots.find((h) => h.id === targetId)
     const item = this.content.items[targetId]
-    switch (verbo) {
-      case 'guarda':
+    switch (verb) {
+      case 'look':
         this.emit(
           'say',
-          hotspot?.descrizione ?? item?.descrizione ?? 'Niente di speciale.',
+          hotspot?.description ?? item?.description ?? 'Niente di speciale.',
         )
         break
-      case 'vai':
-        if (hotspot?.porta_a) {
+      case 'walk':
+        if (hotspot?.leads_to) {
           this.previousRoom = this.state.room
-          this.state.room = hotspot.porta_a
-          this.emit('room', hotspot.porta_a)
+          this.state.room = hotspot.leads_to
+          this.emit('room', hotspot.leads_to)
         } else {
           this.emit('say', 'Non posso andare lì.')
         }
         break
-      case 'prendi':
+      case 'take':
         this.emit('say', 'Non posso prenderlo.')
         break
-      case 'parla':
+      case 'talk':
         this.emit('say', 'Non ottengo risposta.')
         break
-      case 'usa':
-        this.emit(
-          'say',
-          oggettoId ? 'Non funziona.' : 'Usare... con cosa?',
-        )
+      case 'use':
+        this.emit('say', objectId ? 'Non funziona.' : 'Usare... con cosa?')
         break
       default:
         this.emit('say', 'Non succede niente.')

@@ -1,20 +1,20 @@
-id: citta
-nome: La città
+id: town
+name: La città
 color: "#3a2d1d"
-background: citta.svg
+background: town.svg
 player_start: [120, 420]
 walkboxes:
   - [30, 380, 900, 60]
 depth_scale: { min_y: 380, max_y: 440, min: 0.85, max: 1.0 }
 hotspots:
-  - id: porta_magazzino
-    nome: Porta del magazzino
+  - id: warehouse_door
+    name: Porta del magazzino
     rect: [520, 240, 90, 180]
-    descrizione: "Una porta robusta. Sembra chiusa a chiave."
+    description: "Una porta robusta. Sembra chiusa a chiave."
     # Marcatore per lo spawn di ritorno dal magazzino: la transizione vera
     # passa dalle regole in interactions.yaml, che hanno la precedenza.
-    porta_a: magazzino
-  - id: uscita_molo
-    nome: Verso il molo
+    leads_to: warehouse
+  - id: pier_exit
+    name: Verso il molo
     rect: [0, 220, 50, 260]
-    porta_a: molo
+    leads_to: pier

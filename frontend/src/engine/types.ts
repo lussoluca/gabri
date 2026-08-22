@@ -2,10 +2,10 @@ export type Rect = [number, number, number, number]
 
 export interface Hotspot {
   id: string
-  nome: string
+  name: string
   rect: Rect
-  descrizione?: string
-  porta_a?: string
+  description?: string
+  leads_to?: string
 }
 
 // Scala prospettica: il personaggio ha scala `max` a max_y (in basso,
@@ -19,7 +19,7 @@ export interface DepthScale {
 
 export interface Room {
   id: string
-  nome: string
+  name: string
   color?: string
   background?: string
   player_start?: [number, number]
@@ -30,9 +30,9 @@ export interface Room {
 
 export interface Item {
   id: string
-  nome: string
-  descrizione?: string
-  icona?: string
+  name: string
+  description?: string
+  icon?: string
 }
 
 // Un'azione è un oggetto a chiave singola: {say: "..."}, {set_flag: "x = true"}, ecc.
@@ -42,11 +42,11 @@ export type Action = Record<string, string>
 export type Condition = Record<string, string>
 
 export interface Rule {
-  verbo: string
-  oggetto?: string
+  verb: string
+  object?: string
   target: string
-  condizioni?: Condition[]
-  azioni: Action[]
+  conditions?: Condition[]
+  actions: Action[]
 }
 
 export interface GameContent {
@@ -61,15 +61,25 @@ export type FlagValue = boolean | number | string
 
 export interface GameState {
   room: string
-  inventario: string[]
+  inventory: string[]
   flags: Record<string, FlagValue>
 }
 
-export const VERBS = ['guarda', 'prendi', 'usa', 'parla', 'vai'] as const
+export const VERBS = ['look', 'take', 'use', 'talk', 'walk'] as const
 export type Verb = (typeof VERBS)[number]
 
 // Verbo di default stile SCUMM: dopo ogni azione la frase torna a "Vai".
-export const DEFAULT_VERB: Verb = 'vai'
+export const DEFAULT_VERB: Verb = 'walk'
+
+// Etichette mostrate al giocatore: gli identificatori restano in inglese,
+// i testi visibili in italiano.
+export const VERB_LABELS: Record<Verb, string> = {
+  look: 'Guarda',
+  take: 'Prendi',
+  use: 'Usa',
+  talk: 'Parla',
+  walk: 'Vai',
+}
 
 export interface Selection {
   verb: Verb

@@ -80,7 +80,7 @@ export class RoomScene extends Phaser.Scene {
         .setStrokeStyle(1, 0x44ff88, 0.25)
     }
 
-    this.add.text(12, 10, room.nome, {
+    this.add.text(12, 10, room.name, {
       color: '#ffffff',
       fontSize: '16px',
       fontStyle: 'bold',
@@ -95,7 +95,7 @@ export class RoomScene extends Phaser.Scene {
     let [px, py] = room.player_start ?? [140, 400]
     const prev = this.engine.previousRoom
     const door = prev
-      ? room.hotspots.find((h) => h.porta_a === prev)
+      ? room.hotspots.find((h) => h.leads_to === prev)
       : undefined
     if (door) {
       const [dx, dy, dw, dh] = door.rect
@@ -116,7 +116,7 @@ export class RoomScene extends Phaser.Scene {
       .setStrokeStyle(1, 0x88aaff, 0.6)
       .setInteractive({ useHandCursor: true })
 
-    zone.on('pointerover', () => this.game.events.emit('hover', hotspot.nome))
+    zone.on('pointerover', () => this.game.events.emit('hover', hotspot.name))
     zone.on('pointerout', () => this.game.events.emit('hover', null))
     zone.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       // Ci si avvicina al bordo inferiore dell'hotspot (il pathfinding
@@ -125,7 +125,7 @@ export class RoomScene extends Phaser.Scene {
       const hy = y + h
       if (pointer.rightButtonDown()) {
         // Click destro: azione rapida "guarda", senza toccare la frase corrente.
-        this.walkTo(hx, hy, () => this.engine.interact('guarda', hotspot.id))
+        this.walkTo(hx, hy, () => this.engine.interact('look', hotspot.id))
       } else {
         this.walkTo(hx, hy, () => this.applyVerb(hotspot))
       }
@@ -134,8 +134,8 @@ export class RoomScene extends Phaser.Scene {
 
   private applyVerb(hotspot: Hotspot) {
     const selection = this.registry.get('selection') as Selection
-    if (selection.verb === 'usa' && selection.item) {
-      this.engine.interact('usa', hotspot.id, selection.item)
+    if (selection.verb === 'use' && selection.item) {
+      this.engine.interact('use', hotspot.id, selection.item)
     } else {
       this.engine.interact(selection.verb, hotspot.id)
     }
