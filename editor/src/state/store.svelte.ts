@@ -1,12 +1,16 @@
 // Store globale dell'editor (runes Svelte 5). Il modello è deep-reactive:
 // i componenti mutano direttamente project; la dirtiness si calcola
 // confrontando la serializzazione corrente con la baseline fatta al load.
+import type { PullInfo } from '../github/api'
 import type { GhConfig } from '../github/auth'
 import { loadConfig } from '../github/auth'
+import { loadContent } from '../github/contentRepo'
+import { parseProject } from '../model/parse'
 import { serializeProject } from '../model/serialize'
 import type { Issue, Project, SourceState } from '../types'
 import { validate, validateBackgrounds } from '../model/validate'
 import { parseFlagCondition, parseSetFlag } from '../vocab'
+import { clearDraft } from './draft'
 
 export type Tab = 'rooms' | 'items' | 'interactions' | 'dialogues' | 'variables'
 
@@ -72,6 +76,26 @@ export function issues(): Issue[] {
 // Chiamato dopo un load o un save riuscito: lo stato attuale diventa la baseline.
 export function resetBaseline(): void {
   store.baseline = currentFiles()
+}
+
+// Carica i contenuti da un ref e li rende il progetto corrente.
+// Scarta bozza e baseline precedenti: chi chiama gestisce la conferma.
+export async function openRef(ref: string, pr?: PullInfo): Promise<void> {
+  const loaded = await loadContent(store.config, ref)
+  store.project = parseProject(loaded.files)
+  store.source = {
+    ref,
+    headSha: loaded.headSha,
+    shas: Object.fromEntries(loaded.files.map((f) => [f.path, f.sha])),
+    bgFiles: loaded.bgFiles,
+    saveBranch: pr ? pr.head.ref : undefined,
+    prNumber: pr?.number,
+    prUrl: pr?.html_url,
+  }
+  resetBaseline()
+  clearDraft()
+  store.ui.selectedRoom = store.project.rooms[0]?.id ?? null
+  store.ui.selectedDialogue = store.project.dialogues[0]?.name ?? null
 }
 
 // Flag effettivamente usati in regole e dialoghi (tag Ink # set_flag).

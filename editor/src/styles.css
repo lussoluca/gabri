@@ -130,6 +130,14 @@ h2 {
   text-decoration: none;
 }
 
+.topbar .branch-select {
+  width: auto;
+  max-width: 220px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  padding: 3px 6px;
+}
+
 .tabs {
   display: flex;
   gap: 4px;

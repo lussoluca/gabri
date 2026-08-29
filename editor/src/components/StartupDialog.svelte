@@ -1,10 +1,9 @@
 <script lang="ts">
   import { saveConfig } from '../github/auth'
-  import { listEditorPulls, loadContent } from '../github/contentRepo'
+  import { listEditorPulls } from '../github/contentRepo'
   import type { PullInfo } from '../github/api'
-  import { parseProject } from '../model/parse'
   import { clearDraft, loadDraft, type Draft } from '../state/draft'
-  import { resetBaseline, store } from '../state/store.svelte'
+  import { openRef, store } from '../state/store.svelte'
 
   let loading = $state(false)
   let error = $state('')
@@ -38,21 +37,7 @@
     loading = true
     error = ''
     try {
-      const loaded = await loadContent(store.config, ref)
-      store.project = parseProject(loaded.files)
-      store.source = {
-        ref,
-        headSha: loaded.headSha,
-        shas: Object.fromEntries(loaded.files.map((f) => [f.path, f.sha])),
-        bgFiles: loaded.bgFiles,
-        saveBranch: pr ? pr.head.ref : undefined,
-        prNumber: pr?.number,
-        prUrl: pr?.html_url,
-      }
-      resetBaseline()
-      clearDraft()
-      store.ui.selectedRoom = store.project.rooms[0]?.id ?? null
-      store.ui.selectedDialogue = store.project.dialogues[0]?.name ?? null
+      await openRef(ref, pr)
     } catch (e) {
       error = String(e instanceof Error ? e.message : e)
     } finally {
