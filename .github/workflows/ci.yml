@@ -25,6 +25,12 @@ jobs:
       - name: Build backend
         run: npx tsc
         working-directory: backend
+      - name: Typecheck editor
+        run: npx svelte-check --tsconfig ./tsconfig.json
+        working-directory: editor
+      - name: Build editor
+        run: npx vite build
+        working-directory: editor
 
   docker:
     runs-on: ubuntu-latest

@@ -11,6 +11,9 @@ backend su Cloud Run per i salvataggi, storia descritta in YAML + Ink.
   (stato, regole, salvataggi), `src/scenes/` le scene Phaser.
 - `backend/` — API salvataggi (Hono su Node). Firestore su Cloud Run,
   mappa in memoria in locale.
+- `editor/` — editor online dei contenuti (Svelte 5 + Vite). Legge `content/`
+  da GitHub e salva le modifiche aprendo una Pull Request; pubblicato su
+  GitHub Pages sotto `/editor/`.
 - `scripts/build-content.mjs` — compila `content/` in
   `frontend/public/content/game.json` (compila anche i file `.ink`).
 
@@ -23,6 +26,24 @@ npm run dev:frontend   # compila i contenuti e avvia Vite su :5173
 ```
 
 Vite fa da proxy di `/api` verso il backend locale.
+
+## Editor dei contenuti
+
+`npm run dev:editor` avvia l'editor su :5174 (in produzione:
+`https://lussoluca.github.io/gabri/editor/`). L'editor lavora direttamente
+sul repository GitHub: legge `content/` da `main` (o da un branch `editor/*`
+con PR aperta) e ogni salvataggio crea un commit su un branch `editor/*` con
+relativa Pull Request. Serve un fine-grained PAT con permessi
+Contents: Read/Write e Pull requests: Read/Write su questo repository; il
+token resta nel localStorage del browser.
+
+Cosa si edita: stanze su canvas visuale (hotspot, walkbox, player_start,
+guide `depth_scale` trascinabili), oggetti dell'inventario, regole di
+interazione (con riordino: vince la prima che matcha) e dialoghi Ink con
+preview giocabile. Un pannello di validazione segnala riferimenti rotti e
+regole irraggiungibili; gli errori bloccano il salvataggio (con override).
+I file YAML riscritti dall'editor perdono i commenti; i file non toccati
+non vengono riscritti.
 
 ## Modello dati della storia
 
