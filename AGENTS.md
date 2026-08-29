@@ -27,7 +27,8 @@ content/  ──(scripts/build-content.mjs)──►  frontend/public/content/ga
   (oggetti inventario), `interactions.yaml` (regole
   `(verb, object?, target) + conditions -> actions`, vince la PRIMA che
   matcha: l'ordine è semantica), `dialogues/*.ink` (dialoghi Ink),
-  `game.yaml` (stanza iniziale).
+  `game.yaml` (stanza iniziale), `variables.yaml` (registro dei flag, usato
+  solo dall'editor: il motore lo ignora).
 - `scripts/build-content.mjs` — compila `content/` (YAML + Ink) in un unico
   `game.json` servito al frontend. `frontend/public/content/` è generato e
   gitignorato: non committarlo mai.

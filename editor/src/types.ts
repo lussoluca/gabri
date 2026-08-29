@@ -8,11 +8,19 @@ export interface Project {
   items: Item[]
   rules: Rule[]
   dialogues: Dialogue[]
+  variables: Variable[]
 }
 
 export interface Dialogue {
   name: string
   source: string
+}
+
+// Registro delle variabili (flag) di gioco: vive in content/variables.yaml,
+// usato solo dall'editor (il motore crea i flag al primo set_flag).
+export interface Variable {
+  id: string
+  description?: string
 }
 
 export interface Issue {

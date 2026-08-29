@@ -62,6 +62,9 @@ etichette dei verbi in interfaccia) in italiano.
   personaggio in base alla profondità (più in alto = più lontano = più
   piccolo). Senza `walkboxes` il movimento è libero in orizzontale.
 - **Oggetti** (`content/items.yaml`): gli oggetti raccoglibili dell'inventario.
+- **Variabili** (`content/variables.yaml`): registro dei flag di gioco con
+  descrizione, usato dall'editor per le tendine. Il motore lo ignora: i flag
+  nascono comunque al primo `set_flag`.
 - **Interazioni** (`content/interactions.yaml`): regole
   `verb + object? + target + conditions -> actions`. Vince la prima regola che
   matcha, quindi le regole condizionate vanno prima dei default. Azioni

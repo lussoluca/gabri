@@ -65,6 +65,15 @@ export function serializeProject(project: Project): Record<string, string> {
     }),
   )
   files['content/interactions.yaml'] = dumpYaml(project.rules.map(cleanRule))
+  if (project.variables.length > 0) {
+    files['content/variables.yaml'] = dumpYaml(
+      project.variables.map((v) => {
+        const out: typeof v = { id: v.id }
+        if (v.description) out.description = v.description
+        return out
+      }),
+    )
+  }
   for (const room of project.rooms) {
     files[`content/rooms/${room.id}.yaml`] = dumpYaml(cleanRoom(room))
   }

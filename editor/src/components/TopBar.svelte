@@ -6,6 +6,7 @@
     { id: 'items', label: 'Oggetti' },
     { id: 'interactions', label: 'Interazioni' },
     { id: 'dialogues', label: 'Dialoghi' },
+    { id: 'variables', label: 'Variabili' },
   ]
 
   const errors = $derived(issues().filter((i) => i.severity === 'error').length)

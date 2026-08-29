@@ -6,8 +6,9 @@ import { loadConfig } from '../github/auth'
 import { serializeProject } from '../model/serialize'
 import type { Issue, Project, SourceState } from '../types'
 import { validate, validateBackgrounds } from '../model/validate'
+import { parseFlagCondition, parseSetFlag } from '../vocab'
 
-export type Tab = 'rooms' | 'items' | 'interactions' | 'dialogues'
+export type Tab = 'rooms' | 'items' | 'interactions' | 'dialogues' | 'variables'
 
 interface Store {
   config: GhConfig
@@ -71,4 +72,31 @@ export function issues(): Issue[] {
 // Chiamato dopo un load o un save riuscito: lo stato attuale diventa la baseline.
 export function resetBaseline(): void {
   store.baseline = currentFiles()
+}
+
+// Flag effettivamente usati in regole e dialoghi (tag Ink # set_flag).
+export function usedFlags(): Set<string> {
+  const names = new Set<string>()
+  const project = store.project
+  if (!project) return names
+  for (const rule of project.rules) {
+    for (const cond of rule.conditions ?? []) {
+      if (typeof cond.flag === 'string') names.add(parseFlagCondition(cond.flag).name)
+    }
+    for (const action of rule.actions) {
+      if (typeof action.set_flag === 'string') names.add(parseSetFlag(action.set_flag).name)
+    }
+  }
+  for (const dialogue of project.dialogues) {
+    for (const m of dialogue.source.matchAll(/#\s*set_flag:\s*(\w+)/g)) names.add(m[1])
+  }
+  names.delete('')
+  return names
+}
+
+// Variabili selezionabili nelle tendine: dichiarate nel registro + già usate.
+export function knownFlags(): string[] {
+  const names = usedFlags()
+  for (const variable of store.project?.variables ?? []) names.add(variable.id)
+  return [...names].sort()
 }

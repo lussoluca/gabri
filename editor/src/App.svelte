@@ -3,6 +3,7 @@
   import ItemsEditor from './components/items/ItemsEditor.svelte'
   import RulesEditor from './components/interactions/RulesEditor.svelte'
   import RoomEditor from './components/rooms/RoomEditor.svelte'
+  import VariablesEditor from './components/variables/VariablesEditor.svelte'
   import SavePanel from './components/SavePanel.svelte'
   import SettingsDialog from './components/SettingsDialog.svelte'
   import StartupDialog from './components/StartupDialog.svelte'
@@ -46,6 +47,8 @@
       <ItemsEditor />
     {:else if store.ui.tab === 'interactions'}
       <RulesEditor />
+    {:else if store.ui.tab === 'variables'}
+      <VariablesEditor />
     {:else}
       <DialogueEditor />
     {/if}

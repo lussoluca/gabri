@@ -1,7 +1,15 @@
 <script lang="ts">
   import type { Rule } from '@game/engine/types'
-  import { store } from '../../state/store.svelte'
-  import { ACTION_KEYS, CONDITION_KEYS, VERBS } from '../../vocab'
+  import { knownFlags, store } from '../../state/store.svelte'
+  import {
+    ACTION_KEYS,
+    CONDITION_KEYS,
+    composeFlagCondition,
+    composeSetFlag,
+    parseFlagCondition,
+    parseSetFlag,
+    VERBS,
+  } from '../../vocab'
 
   interface Props {
     rule: Rule
@@ -13,6 +21,7 @@
   const itemIds = $derived(project.items.map((i) => i.id))
   const roomIds = $derived(project.rooms.map((r) => r.id))
   const dialogueNames = $derived(project.dialogues.map((d) => d.name))
+  const flagNames = $derived(knownFlags())
 
   function keyOf(entry: Record<string, string>): string {
     return Object.keys(entry)[0] ?? ''
@@ -32,6 +41,28 @@
   function setValue(list: Record<string, string>[], index: number, value: string) {
     const key = keyOf(list[index])
     if (key) list[index] = { [key]: value }
+  }
+
+  // Editing strutturato delle espressioni flag: le tendine aggiornano un
+  // pezzo alla volta e ricompongono la stringa che il motore si aspetta.
+  function patchFlagCondition(
+    list: Record<string, string>[],
+    index: number,
+    patch: Partial<ReturnType<typeof parseFlagCondition>>,
+  ) {
+    const next = { ...parseFlagCondition(valueOf(list[index])), ...patch }
+    if (!next.value) next.value = 'true'
+    setValue(list, index, next.name ? composeFlagCondition(next) : '')
+  }
+
+  function patchSetFlag(
+    list: Record<string, string>[],
+    index: number,
+    patch: Partial<{ name: string; value: string }>,
+  ) {
+    const next = { ...parseSetFlag(valueOf(list[index])), ...patch }
+    if (!next.value) next.value = 'true'
+    setValue(list, index, next.name ? composeSetFlag(next.name, next.value) : '')
   }
 
   function addCondition() {
@@ -63,17 +94,58 @@
       oninput={(e) => setValue(list, index, e.currentTarget.value)}
     ></textarea>
   {:else if key === 'set_flag'}
-    <input
-      placeholder="nome = valore (es. door_open = true)"
-      {value}
-      oninput={(e) => setValue(list, index, e.currentTarget.value)}
-    />
+    {@const expr = parseSetFlag(value)}
+    <div class="expr-row">
+      <select
+        value={expr.name}
+        onchange={(e) => patchSetFlag(list, index, { name: e.currentTarget.value })}
+      >
+        <option value="">— variabile —</option>
+        {#each flagNames as name (name)}
+          <option value={name}>{name}</option>
+        {/each}
+        {#if expr.name && !flagNames.includes(expr.name)}
+          <option value={expr.name}>{expr.name}</option>
+        {/if}
+      </select>
+      <span class="expr-op">=</span>
+      <input
+        class="expr-value"
+        list="flag-values"
+        value={expr.name ? expr.value : 'true'}
+        oninput={(e) => patchSetFlag(list, index, { value: e.currentTarget.value })}
+      />
+    </div>
   {:else if key === 'flag'}
-    <input
-      placeholder="nome == valore (es. door_open != true)"
-      {value}
-      oninput={(e) => setValue(list, index, e.currentTarget.value)}
-    />
+    {@const expr = parseFlagCondition(value)}
+    <div class="expr-row">
+      <select
+        value={expr.name}
+        onchange={(e) => patchFlagCondition(list, index, { name: e.currentTarget.value })}
+      >
+        <option value="">— variabile —</option>
+        {#each flagNames as name (name)}
+          <option value={name}>{name}</option>
+        {/each}
+        {#if expr.name && !flagNames.includes(expr.name)}
+          <option value={expr.name}>{expr.name}</option>
+        {/if}
+      </select>
+      <select
+        class="expr-op-select"
+        value={expr.op}
+        onchange={(e) => patchFlagCondition(list, index, { op: e.currentTarget.value as '==' | '!=' })}
+      >
+        <option value="==">è</option>
+        <option value="!=">non è</option>
+      </select>
+      <input
+        class="expr-value"
+        list="flag-values"
+        value={expr.name ? expr.value : 'true'}
+        oninput={(e) => patchFlagCondition(list, index, { value: e.currentTarget.value })}
+      />
+    </div>
   {:else if key === 'add_item' || key === 'remove_item' || key === 'has_item'}
     <select {value} onchange={(e) => setValue(list, index, e.currentTarget.value)}>
       <option value="">— oggetto —</option>
@@ -97,6 +169,11 @@
     </select>
   {/if}
 {/snippet}
+
+<datalist id="flag-values">
+  <option value="true"></option>
+  <option value="false"></option>
+</datalist>
 
 <h2>Regola</h2>
 

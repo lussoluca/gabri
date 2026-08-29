@@ -2,7 +2,7 @@
 // scripts/build-content.mjs, ma i dialoghi restano sorgente Ink grezzo.
 import type { Item, Room, Rule } from '@game/engine/types'
 import { parse } from 'yaml'
-import type { LoadedFile, Project } from '../types'
+import type { LoadedFile, Project, Variable } from '../types'
 
 export function parseProject(files: LoadedFile[]): Project {
   const project: Project = {
@@ -11,12 +11,15 @@ export function parseProject(files: LoadedFile[]): Project {
     items: [],
     rules: [],
     dialogues: [],
+    variables: [],
   }
 
   for (const file of files) {
     if (file.path === 'content/game.yaml') {
       const game = parse(file.text) as { start?: { room?: string } } | null
       project.game = { start: { room: game?.start?.room ?? '' } }
+    } else if (file.path === 'content/variables.yaml') {
+      project.variables = ((parse(file.text) as Variable[] | null) ?? []).map((v) => ({ ...v }))
     } else if (file.path === 'content/items.yaml') {
       project.items = ((parse(file.text) as Item[] | null) ?? []).map((item) => ({ ...item }))
     } else if (file.path === 'content/interactions.yaml') {

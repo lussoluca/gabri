@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { store } from '../../state/store.svelte'
+  import { knownFlags, store } from '../../state/store.svelte'
   import InkPreview from './InkPreview.svelte'
 
   const project = $derived(store.project!)
@@ -29,6 +29,29 @@
       source: '// Dialogo Ink. Tag come "# set_flag: nome = valore" vengono eseguiti dal motore.\nCiao!\n-> END\n',
     })
     store.ui.selectedDialogue = name
+  }
+
+  let textareaEl = $state<HTMLTextAreaElement | null>(null)
+  let insertName = $state('')
+  let insertValue = $state('true')
+
+  // Inserisce un tag "# set_flag: nome = valore" alla posizione del cursore,
+  // su una riga propria, senza doverlo scrivere a mano.
+  function insertSetFlag() {
+    if (!dialogue || !insertName) return
+    const tag = `# set_flag: ${insertName} = ${insertValue.trim() || 'true'}`
+    const source = dialogue.source
+    const pos = textareaEl?.selectionStart ?? source.length
+    const before = source.slice(0, pos)
+    const after = source.slice(pos)
+    const prefix = before === '' || before.endsWith('\n') ? '' : '\n'
+    const suffix = after.startsWith('\n') || after === '' ? '' : '\n'
+    dialogue.source = before + prefix + tag + suffix + after
+    const cursor = pos + prefix.length + tag.length
+    requestAnimationFrame(() => {
+      textareaEl?.focus()
+      textareaEl?.setSelectionRange(cursor, cursor)
+    })
   }
 
   function deleteDialogue() {
@@ -63,18 +86,39 @@
       <input
         id="dlg-name"
         style="width: 220px"
-        bind:value={nameDraft}
+        value={nameDraft}
+        autocapitalize="none"
+        autocorrect="off"
+        spellcheck="false"
+        oninput={(e) => (nameDraft = e.currentTarget.value.toLowerCase())}
         onblur={applyName}
         onkeydown={(e) => e.key === 'Enter' && applyName()}
       />
       <span class="spacer" style="flex: 1"></span>
       <button class="danger" onclick={deleteDialogue}>Elimina dialogo</button>
     </div>
+    <div class="toolbar">
+      <span class="field-label" style="margin: 0">Imposta variabile al cursore:</span>
+      <select style="width: 180px" bind:value={insertName}>
+        <option value="">— variabile —</option>
+        {#each knownFlags() as name (name)}
+          <option value={name}>{name}</option>
+        {/each}
+      </select>
+      <span class="note">=</span>
+      <input style="width: 100px" list="flag-values" bind:value={insertValue} />
+      <datalist id="flag-values">
+        <option value="true"></option>
+        <option value="false"></option>
+      </datalist>
+      <button disabled={!insertName} onclick={insertSetFlag}>Inserisci # set_flag</button>
+    </div>
     <div class="split">
       <div class="col">
         <textarea
           style="flex: 1; min-height: 300px"
           spellcheck="false"
+          bind:this={textareaEl}
           bind:value={dialogue.source}
         ></textarea>
       </div>

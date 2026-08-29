@@ -33,6 +33,14 @@ export function validate(project: Project): Issue[] {
   const itemIds = new Set<string>()
   const dialogueNames = new Set(project.dialogues.map((d) => d.name))
 
+  const variableIds = new Set<string>()
+  for (const variable of project.variables) {
+    const file = 'content/variables.yaml'
+    if (!ID_RE.test(variable.id)) error(file, `Id variabile non valido: "${variable.id}"`)
+    if (variableIds.has(variable.id)) error(file, `Id variabile duplicato: "${variable.id}"`)
+    variableIds.add(variable.id)
+  }
+
   for (const item of project.items) {
     const file = 'content/items.yaml'
     if (!ID_RE.test(item.id)) error(file, `Id oggetto non valido: "${item.id}"`)
