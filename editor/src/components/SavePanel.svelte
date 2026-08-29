@@ -74,15 +74,20 @@
       // Lo stato salvato diventa la nuova baseline.
       const shas = { ...source.shas, ...result.blobShas }
       for (const path of changes.deletes) delete shas[path]
+      const bgFiles = new Set(source.bgFiles)
+      for (const name of Object.keys(store.bg.uploads)) bgFiles.add(name)
+      for (const name of store.bg.deletes) bgFiles.delete(name)
       store.source = {
         ...source,
         ref: branch,
         headSha: result.commitSha,
         shas,
+        bgFiles: [...bgFiles].sort(),
         saveBranch: branch,
         prNumber,
         prUrl,
       }
+      store.bg = { uploads: {}, deletes: [] }
       resetBaseline()
       clearDraft()
       stale = null

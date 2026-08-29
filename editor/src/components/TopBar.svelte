@@ -9,6 +9,7 @@
     { id: 'interactions', label: 'Interazioni' },
     { id: 'dialogues', label: 'Dialoghi' },
     { id: 'variables', label: 'Variabili' },
+    { id: 'backgrounds', label: 'Sfondi' },
   ]
 
   const errors = $derived(issues().filter((i) => i.severity === 'error').length)

@@ -43,6 +43,13 @@
     const background = room.background
     bgUrl = null
     if (!background || !store.source) return
+    // Sfondo caricato nell'editor ma non ancora committato: data URL diretto.
+    const upload = store.bg.uploads[background]
+    if (upload) {
+      bgUrl = `data:${upload.mime};base64,${upload.base64}`
+      return
+    }
+    if (store.bg.deletes.includes(background)) return
     const ref = store.source.saveBranch ?? store.source.ref
     const key = `${ref}:${background}`
     const cached = bgCache.get(key)

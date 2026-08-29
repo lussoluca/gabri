@@ -90,7 +90,7 @@ export async function findStaleFiles(
 export interface SaveRequest {
   branch: string
   message: string
-  writes: { path: string; text: string }[]
+  writes: { path: string; content: string; encoding: 'utf-8' | 'base64' }[]
   deletes: string[]
 }
 
@@ -109,7 +109,7 @@ export async function saveCommit(cfg: GhConfig, req: SaveRequest): Promise<SaveR
   const blobShas: Record<string, string> = {}
   await Promise.all(
     req.writes.map(async (w) => {
-      blobShas[w.path] = await createBlob(cfg, w.text)
+      blobShas[w.path] = await createBlob(cfg, w.content, w.encoding)
     }),
   )
 

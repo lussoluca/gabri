@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Room } from '@game/engine/types'
-  import { store } from '../../state/store.svelte'
+  import { availableBgFiles, store } from '../../state/store.svelte'
   import { ROOM_HEIGHT } from '../../vocab'
 
   interface Props {
@@ -77,9 +77,12 @@
   }}
 >
   <option value="">— nessuno —</option>
-  {#each store.source?.bgFiles ?? [] as file (file)}
+  {#each availableBgFiles() as file (file)}
     <option value={file}>{file}</option>
   {/each}
+  {#if room.background && !availableBgFiles().includes(room.background)}
+    <option value={room.background}>{room.background} (mancante)</option>
+  {/if}
 </select>
 
 <label style="display: flex; align-items: center; gap: 6px; margin-top: 10px">

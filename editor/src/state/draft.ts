@@ -1,4 +1,5 @@
 // Bozza non salvata in localStorage: sopravvive a refresh e chiusura del tab.
+import type { BgState } from './store.svelte'
 import type { Project, SourceState } from '../types'
 
 const KEY = 'gabri-editor.draft'
@@ -8,6 +9,8 @@ export interface Draft {
   source: SourceState
   baseline: Record<string, string>
   project: Project
+  // Assente nelle bozze salvate prima della gestione sfondi.
+  bg?: BgState
 }
 
 export function saveDraft(draft: Draft): void {

@@ -82,10 +82,16 @@ export async function getFileBlobUrl(cfg: GhConfig, ref: string, path: string, m
   return URL.createObjectURL(new Blob([buf], { type: mime }))
 }
 
-export async function createBlob(cfg: GhConfig, text: string): Promise<string> {
+// content: testo UTF-8 oppure dati già in base64, secondo encoding.
+export async function createBlob(
+  cfg: GhConfig,
+  content: string,
+  encoding: 'utf-8' | 'base64' = 'utf-8',
+): Promise<string> {
+  const base64 = encoding === 'base64' ? content : encodeBase64(content)
   const data = await gh<{ sha: string }>(cfg, '/git/blobs', {
     method: 'POST',
-    body: JSON.stringify({ content: encodeBase64(text), encoding: 'base64' }),
+    body: JSON.stringify({ content: base64, encoding: 'base64' }),
   })
   return data.sha
 }

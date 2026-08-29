@@ -50,6 +50,7 @@
     store.project = draft.project
     store.source = draft.source
     store.baseline = draft.baseline
+    store.bg = draft.bg ?? { uploads: {}, deletes: [] }
     store.ui.selectedRoom = draft.project.rooms[0]?.id ?? null
     store.ui.selectedDialogue = draft.project.dialogues[0]?.name ?? null
   }

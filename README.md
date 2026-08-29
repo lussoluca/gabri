@@ -39,8 +39,9 @@ token resta nel localStorage del browser.
 
 Cosa si edita: stanze su canvas visuale (hotspot, walkbox, player_start,
 guide `depth_scale` trascinabili), oggetti dell'inventario, regole di
-interazione (con riordino: vince la prima che matcha) e dialoghi Ink con
-preview giocabile. Un pannello di validazione segnala riferimenti rotti e
+interazione (con riordino: vince la prima che matcha), dialoghi Ink con
+preview giocabile, variabili di gioco e sfondi delle stanze
+(caricamento/sostituzione dei file in `frontend/public/bg/`). Un pannello di validazione segnala riferimenti rotti e
 regole irraggiungibili; gli errori bloccano il salvataggio (con override).
 I file YAML riscritti dall'editor perdono i commenti; i file non toccati
 non vengono riscritti.

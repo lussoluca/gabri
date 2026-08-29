@@ -2,6 +2,7 @@
   import DialogueEditor from './components/dialogues/DialogueEditor.svelte'
   import ItemsEditor from './components/items/ItemsEditor.svelte'
   import RulesEditor from './components/interactions/RulesEditor.svelte'
+  import BgEditor from './components/backgrounds/BgEditor.svelte'
   import RoomEditor from './components/rooms/RoomEditor.svelte'
   import VariablesEditor from './components/variables/VariablesEditor.svelte'
   import SavePanel from './components/SavePanel.svelte'
@@ -20,6 +21,7 @@
       source: store.source,
       baseline: store.baseline,
       project: store.project,
+      bg: store.bg,
     })
     if (!isDirty()) return
     const timer = setTimeout(() => {
@@ -49,6 +51,8 @@
       <RulesEditor />
     {:else if store.ui.tab === 'variables'}
       <VariablesEditor />
+    {:else if store.ui.tab === 'backgrounds'}
+      <BgEditor />
     {:else}
       <DialogueEditor />
     {/if}
