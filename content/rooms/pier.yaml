@@ -1,25 +1,23 @@
 id: pier
 name: Il molo
-color: "#1d3a4a"
-background: pier.svg
-player_start: [140, 420]
-# Zone camminabili: banchina sinistra, passerella rialzata, banchina destra.
-# Il percorso da sinistra a destra passa per la passerella (pathfinding).
-walkboxes:
-  - [40, 390, 480, 50]
-  - [520, 350, 140, 90]
-  - [660, 390, 270, 50]
-depth_scale: { min_y: 350, max_y: 440, min: 0.75, max: 1.0 }
 hotspots:
   - id: barrel
     name: Barile
-    rect: [430, 300, 90, 110]
-    description: "Un barile di grog. Puzza."
-  - id: lookout
+    rect: [ 430, 300, 90, 110 ]
+    description: Un barile di grog. Puzza.
+  - id: pirata
     name: Pirata di vedetta
-    rect: [700, 260, 60, 150]
-    description: "Un pirata con un occhio solo. L'altro è di vetro."
+    rect: [ 700, 260, 60, 150 ]
+    description: Un pirata con un occhio solo. L'altro è di vetro.
   - id: town_exit
     name: Verso la città
-    rect: [900, 220, 60, 260]
+    rect: [ 900, 220, 60, 260 ]
     leads_to: town
+color: "#1d3a4a"
+background: pier.svg
+player_start: [ 140, 420 ]
+walkboxes:
+  - [ 40, 390, 480, 50 ]
+  - [ 520, 350, 140, 90 ]
+  - [ 660, 390, 270, 50 ]
+depth_scale: { min_y: 350, max_y: 440, min: 0.75, max: 1 }

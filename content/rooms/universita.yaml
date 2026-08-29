@@ -1,0 +1,8 @@
+id: universita
+name: "Università "
+hotspots:
+  - id: hotspot_1
+    name: Nuovo hotspot
+    rect: [ 309, 279, 38, 20 ]
+player_start: [ 120, 376 ]
+depth_scale: { min_y: 308, max_y: 440, min: 0.75, max: 1 }

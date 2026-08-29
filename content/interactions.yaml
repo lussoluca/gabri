@@ -1,58 +1,43 @@
-# Regole di interazione: il motore prende la PRIMA regola che matcha
-# (verb, object?, target) con tutte le condizioni vere.
-# Metti quindi le regole condizionate PRIMA dei default.
-#
-# Verbi: look, take, use, talk, walk.
-# Condizioni: {flag: "nome == valore"} oppure {has_item: item_id}.
-# Azioni: say, set_flag, add_item, remove_item, goto_room, dialogue.
-# Identificatori e flag in inglese; i testi di say in italiano.
-
 - verb: look
   target: barrel
+  actions:
+    - say: Frugo nel grog... c'è una chiave arrugginita sul fondo!
+    - set_flag: key_found = true
+    - add_item: rusty_key
   conditions:
     - flag: key_hint == true
     - flag: key_found != true
-  actions:
-    - say: "Frugo nel grog... c'è una chiave arrugginita sul fondo!"
-    - set_flag: key_found = true
-    - add_item: rusty_key
-
 - verb: talk
-  target: lookout
+  target: pirata
   actions:
-    - dialogue: lookout
-
+    - dialogue: pirata
 - verb: use
-  object: rusty_key
   target: warehouse_door
-  conditions:
-    - flag: door_open != true
   actions:
     - set_flag: door_open = true
     - remove_item: rusty_key
-    - say: "La serratura scatta con uno scricchiolio. La porta è aperta."
-
+    - say: La serratura scatta con uno scricchiolio. La porta è aperta.
+  object: rusty_key
+  conditions:
+    - flag: door_open != true
 - verb: walk
   target: warehouse_door
-  conditions:
-    - flag: door_open == true
   actions:
     - goto_room: warehouse
-
+  conditions:
+    - flag: door_open == true
 - verb: walk
   target: warehouse_door
   actions:
-    - say: "È chiusa a chiave."
-
+    - say: È chiusa a chiave.
 - verb: take
   target: treasure
+  actions:
+    - say: Li ho già presi, non c'è più nulla da fare qui.
   conditions:
     - flag: demo_completed == true
-  actions:
-    - say: "Li ho già presi, non c'è più nulla da fare qui."
-
 - verb: take
   target: treasure
   actions:
-    - say: "Dobloni! Sono ricco! (Fine della demo.)"
+    - say: Dobloni! Sono ricco! (Fine della demo.)
     - set_flag: demo_completed = true
