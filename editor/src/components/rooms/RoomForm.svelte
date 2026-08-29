@@ -48,7 +48,16 @@
 
 <label for="room-id">Id (nome file)</label>
 <div style="display: flex; gap: 6px">
-  <input id="room-id" bind:value={idDraft} onblur={applyId} onkeydown={(e) => e.key === 'Enter' && applyId()} />
+  <input
+    id="room-id"
+    value={idDraft}
+    autocapitalize="none"
+    autocorrect="off"
+    spellcheck="false"
+    oninput={(e) => (idDraft = e.currentTarget.value.toLowerCase())}
+    onblur={applyId}
+    onkeydown={(e) => e.key === 'Enter' && applyId()}
+  />
 </div>
 
 <label for="room-name">Nome</label>

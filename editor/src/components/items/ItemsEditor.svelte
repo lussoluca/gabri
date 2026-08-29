@@ -34,7 +34,15 @@
     <tbody>
       {#each project.items as item, i (i)}
         <tr>
-          <td><input bind:value={item.id} /></td>
+          <td>
+            <input
+              value={item.id}
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+              oninput={(e) => (item.id = e.currentTarget.value.toLowerCase())}
+            />
+          </td>
           <td><input bind:value={item.name} /></td>
           <td>
             <input

@@ -15,7 +15,14 @@
 <h2>Hotspot</h2>
 
 <label for="hs-id">Id</label>
-<input id="hs-id" bind:value={hotspot.id} />
+<input
+  id="hs-id"
+  value={hotspot.id}
+  autocapitalize="none"
+  autocorrect="off"
+  spellcheck="false"
+  oninput={(e) => (hotspot.id = e.currentTarget.value.toLowerCase())}
+/>
 
 <label for="hs-name">Nome (mostrato al giocatore)</label>
 <input id="hs-name" bind:value={hotspot.name} />
