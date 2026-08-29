@@ -29,6 +29,15 @@
       e <strong>Pull requests: Read/Write</strong>. Resta salvato solo in questo browser
       (localStorage), nessun server lo vede.
     </p>
+    <p class="note">
+      <a
+        href="https://github.com/settings/personal-access-tokens/new"
+        target="_blank"
+        rel="noreferrer">Crea il token su GitHub ↗</a
+      >: in «Repository access» scegli <em>Only select repositories</em> e seleziona questo
+      repository, poi sotto «Repository permissions» imposta <em>Contents</em> e
+      <em>Pull requests</em> su <em>Read and write</em>.
+    </p>
     <div class="grid-2">
       <div>
         <label for="gh-owner">Owner</label>

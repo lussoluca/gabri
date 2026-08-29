@@ -84,6 +84,15 @@
         <strong>Contents: Read/Write</strong> e <strong>Pull requests: Read/Write</strong>
         sul repository. Resta salvato solo in questo browser.
       </p>
+      <p class="note">
+        <a
+          href="https://github.com/settings/personal-access-tokens/new"
+          target="_blank"
+          rel="noreferrer">Crea il token su GitHub ↗</a
+        >: in «Repository access» scegli <em>Only select repositories</em> e seleziona questo
+        repository, poi sotto «Repository permissions» imposta <em>Contents</em> e
+        <em>Pull requests</em> su <em>Read and write</em>. Genera e incolla qui il token.
+      </p>
       <label for="su-token">Token</label>
       <input id="su-token" type="password" bind:value={token} placeholder="github_pat_…" />
       <div class="grid-2">

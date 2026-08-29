@@ -428,6 +428,10 @@ main.content {
   color: var(--muted);
 }
 
+.note a {
+  color: var(--accent);
+}
+
 .error-text {
   color: var(--danger);
   font-size: 13px;
