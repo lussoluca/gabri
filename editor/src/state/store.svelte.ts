@@ -46,7 +46,7 @@ export function currentFiles(): Record<string, string> {
 }
 
 export interface Changes {
-  writes: { path: string; text: string }[]
+  writes: { path: string; text: string; added: boolean }[]
   deletes: string[]
 }
 
@@ -54,7 +54,7 @@ export function pendingChanges(): Changes {
   const current = currentFiles()
   const writes = Object.entries(current)
     .filter(([path, text]) => store.baseline[path] !== text)
-    .map(([path, text]) => ({ path, text }))
+    .map(([path, text]) => ({ path, text, added: !(path in store.baseline) }))
   const deletes = Object.keys(store.baseline).filter((path) => !(path in current))
   return { writes, deletes }
 }

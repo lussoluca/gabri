@@ -118,10 +118,12 @@
       <h2>File da committare</h2>
       <div class="file-list">
         {#each changes.writes as w (w.path)}
-          <div class="add">~ {w.path}</div>
+          <div class={w.added ? 'add' : 'mod'}>
+            {w.added ? '+' : '~'} {w.path} <span class="note">({w.added ? 'nuovo' : 'modificato'})</span>
+          </div>
         {/each}
         {#each changes.deletes as path (path)}
-          <div class="del">− {path}</div>
+          <div class="del">− {path} <span class="note">(eliminato)</span></div>
         {/each}
         {#if changes.writes.length === 0 && changes.deletes.length === 0}
           <div class="note">Nessuna modifica.</div>
