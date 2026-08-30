@@ -1,5 +1,6 @@
 <script lang="ts">
   import { store } from '../../state/store.svelte'
+  import NumField from '../NumField.svelte'
   import HotspotForm from './HotspotForm.svelte'
   import RoomCanvas, { type Mode, type Selection } from './RoomCanvas.svelte'
   import RoomForm from './RoomForm.svelte'
@@ -68,6 +69,40 @@
       <option value={r.id}>{r.id}</option>
     {/each}
   </select>
+
+  {#if room}
+    <h2 style="margin-top: 14px">Hotspot</h2>
+    {#each room.hotspots as hotspot, i (i)}
+      <div class="row">
+        <button
+          class="item"
+          class:selected={selection?.kind === 'hotspot' && selection.index === i}
+          onclick={() => (selection = { kind: 'hotspot', index: i })}
+        >
+          {hotspot.id}
+        </button>
+      </div>
+    {/each}
+    {#if room.hotspots.length === 0}
+      <span class="note">nessuno</span>
+    {/if}
+
+    <h2 style="margin-top: 10px">Walkbox</h2>
+    {#each room.walkboxes ?? [] as box, i (i)}
+      <div class="row">
+        <button
+          class="item"
+          class:selected={selection?.kind === 'walkbox' && selection.index === i}
+          onclick={() => (selection = { kind: 'walkbox', index: i })}
+        >
+          #{i + 1} [{box.join(', ')}]
+        </button>
+      </div>
+    {/each}
+    {#if !room.walkboxes || room.walkboxes.length === 0}
+      <span class="note">nessuno</span>
+    {/if}
+  {/if}
 </aside>
 
 <section class="editor-main">
@@ -115,10 +150,10 @@
     <h2>Walkbox #{selection.index + 1}</h2>
     <span class="field-label">Rettangolo [x, y, w, h]</span>
     <div class="grid-2">
-      <input type="number" aria-label="x" bind:value={selectedWalkbox[0]} />
-      <input type="number" aria-label="y" bind:value={selectedWalkbox[1]} />
-      <input type="number" aria-label="larghezza" bind:value={selectedWalkbox[2]} />
-      <input type="number" aria-label="altezza" bind:value={selectedWalkbox[3]} />
+      <NumField label="x" value={selectedWalkbox[0]} set={(n) => (selectedWalkbox[0] = n)} />
+      <NumField label="y" value={selectedWalkbox[1]} set={(n) => (selectedWalkbox[1] = n)} />
+      <NumField label="larghezza" value={selectedWalkbox[2]} set={(n) => (selectedWalkbox[2] = n)} />
+      <NumField label="altezza" value={selectedWalkbox[3]} set={(n) => (selectedWalkbox[3] = n)} />
     </div>
     <div class="actions" style="justify-content: flex-start; margin-top: 16px">
       <button class="danger" onclick={deleteSelected}>Elimina walkbox</button>

@@ -2,6 +2,7 @@
   import type { Room } from '@game/engine/types'
   import { availableBgFiles, store } from '../../state/store.svelte'
   import { ROOM_HEIGHT } from '../../vocab'
+  import NumField from '../NumField.svelte'
 
   interface Props {
     room: Room
@@ -97,12 +98,12 @@
 {#if room.player_start}
   <div class="grid-2">
     <div>
-      <label for="start-x">x</label>
-      <input id="start-x" type="number" bind:value={room.player_start[0]} />
+      <span class="field-label">x</span>
+      <NumField label="player_start x" value={room.player_start[0]} set={(n) => (room.player_start![0] = n)} />
     </div>
     <div>
-      <label for="start-y">y</label>
-      <input id="start-y" type="number" bind:value={room.player_start[1]} />
+      <span class="field-label">y</span>
+      <NumField label="player_start y" value={room.player_start[1]} set={(n) => (room.player_start![1] = n)} />
     </div>
   </div>
 {/if}

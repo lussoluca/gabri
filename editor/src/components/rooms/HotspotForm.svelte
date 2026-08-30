@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Hotspot } from '@game/engine/types'
   import { store } from '../../state/store.svelte'
+  import NumField from '../NumField.svelte'
 
   interface Props {
     hotspot: Hotspot
@@ -57,10 +58,10 @@
 
 <span class="field-label">Rettangolo [x, y, w, h]</span>
 <div class="grid-2">
-  <input type="number" aria-label="x" bind:value={hotspot.rect[0]} />
-  <input type="number" aria-label="y" bind:value={hotspot.rect[1]} />
-  <input type="number" aria-label="larghezza" bind:value={hotspot.rect[2]} />
-  <input type="number" aria-label="altezza" bind:value={hotspot.rect[3]} />
+  <NumField label="x" value={hotspot.rect[0]} set={(n) => (hotspot.rect[0] = n)} />
+  <NumField label="y" value={hotspot.rect[1]} set={(n) => (hotspot.rect[1] = n)} />
+  <NumField label="larghezza" value={hotspot.rect[2]} set={(n) => (hotspot.rect[2] = n)} />
+  <NumField label="altezza" value={hotspot.rect[3]} set={(n) => (hotspot.rect[3] = n)} />
 </div>
 
 <div class="actions" style="justify-content: flex-start; margin-top: 16px">

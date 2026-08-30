@@ -333,10 +333,23 @@ main.content {
   pointer-events: none;
 }
 
+/* Zona di tocco larga (26px) con quadratino visibile centrato:
+   su tablet le maniglie devono essere prendibili col dito. */
 .handle {
   position: absolute;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+}
+
+.handle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 8px;
   height: 8px;
+  margin: -5px 0 0 -5px;
   background: #fff;
   border: 1px solid #333;
   border-radius: 2px;
@@ -353,24 +366,35 @@ main.content {
   pointer-events: none;
 }
 
+/* Fascia di tocco alta 18px con la linea tratteggiata al centro. */
 .depth-guide {
   position: absolute;
   left: 0;
   right: 0;
-  height: 0;
-  border-top: 1px dashed var(--warn);
+  height: 18px;
+  margin-top: -9px;
   cursor: ns-resize;
+}
+
+.depth-guide::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px dashed var(--warn);
 }
 
 .depth-guide .tag {
   position: absolute;
   right: 4px;
-  top: -16px;
+  top: -8px;
   font-size: 10px;
   color: var(--warn);
   background: rgba(0, 0, 0, 0.6);
   padding: 0 4px;
   border-radius: 3px;
+  z-index: 1;
 }
 
 .rubber {
@@ -610,6 +634,34 @@ main.content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0 10px;
+}
+
+.numfield {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.numfield input {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.numfield input::-webkit-outer-spin-button,
+.numfield input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.numfield button {
+  flex: none;
+  width: 34px;
+  font-size: 15px;
+  padding: 4px 0;
 }
 
 .upload-button {

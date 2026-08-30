@@ -23,7 +23,8 @@
     const cx = dir.includes('w') ? 0 : dir.includes('e') ? w : w / 2
     const cy = dir.includes('n') ? 0 : dir.includes('s') ? h : h / 2
     const cursor = `${dir}-resize`
-    return `left:${cx - 4}px;top:${cy - 4}px;cursor:${cursor}`
+    // -13 = metà della zona di tocco (26px), il quadratino visibile è centrato via CSS.
+    return `left:${cx - 13}px;top:${cy - 13}px;cursor:${cursor}`
   }
 
   function startDrag(e: PointerEvent) {
