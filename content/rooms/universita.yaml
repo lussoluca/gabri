@@ -1,8 +1,24 @@
 id: universita
 name: "Università "
 hotspots:
-  - id: hotspot_1
-    name: Nuovo hotspot
-    rect: [ 309, 279, 38, 20 ]
+  - id: porta_universita
+    name: Università dei supereroi
+    rect: [ 387, 74, 181, 149 ]
+    description: Ah… come mi piacerebbe essere ammesso!
+  - id: segreteria
+    name: Segreteria
+    rect: [ 729, 199, 195, 102 ]
+background: image.jpg
 player_start: [ 120, 376 ]
-depth_scale: { min_y: 308, max_y: 440, min: 0.75, max: 1 }
+walkboxes:
+  - [ -101, 551, 528, 207 ]
+  - [ 1016, 564, 377, 92 ]
+  - [ 181, 771, 42, 78 ]
+  - [ 314, 228, 272, 206 ]
+  - [ 321, 671, 10, 38 ]
+  - [ 219, 546, 106, 18 ]
+  - [ 583, 319, 357, 123 ]
+  - [ 157, 309, 156, 125 ]
+  - [ 48, 341, 107, 93 ]
+  - [ 233, 261, 86, 50 ]
+depth_scale: { min_y: 304, max_y: 440, min: 0.75, max: 1 }

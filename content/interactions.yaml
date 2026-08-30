@@ -1,43 +1,6 @@
 - verb: look
-  target: barrel
+  target: porta_universita
   actions:
-    - say: Frugo nel grog... c'è una chiave arrugginita sul fondo!
-    - set_flag: key_found = true
-    - add_item: rusty_key
+    - say: La porta è chiusa
   conditions:
-    - flag: key_hint == true
-    - flag: key_found != true
-- verb: talk
-  target: pirata
-  actions:
-    - dialogue: pirata
-- verb: use
-  target: warehouse_door
-  actions:
-    - set_flag: door_open = true
-    - remove_item: rusty_key
-    - say: La serratura scatta con uno scricchiolio. La porta è aperta.
-  object: rusty_key
-  conditions:
-    - flag: door_open != true
-- verb: walk
-  target: warehouse_door
-  actions:
-    - goto_room: warehouse
-  conditions:
-    - flag: door_open == true
-- verb: walk
-  target: warehouse_door
-  actions:
-    - say: È chiusa a chiave.
-- verb: take
-  target: treasure
-  actions:
-    - say: Li ho già presi, non c'è più nulla da fare qui.
-  conditions:
-    - flag: demo_completed == true
-- verb: take
-  target: treasure
-  actions:
-    - say: Dobloni! Sono ricco! (Fine della demo.)
-    - set_flag: demo_completed = true
+    - flag: supereroe != true
