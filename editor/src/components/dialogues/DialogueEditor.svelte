@@ -106,11 +106,10 @@
         {/each}
       </select>
       <span class="note">=</span>
-      <input style="width: 100px" list="flag-values" bind:value={insertValue} />
-      <datalist id="flag-values">
-        <option value="true"></option>
-        <option value="false"></option>
-      </datalist>
+      <select style="width: 100px" bind:value={insertValue}>
+        <option value="true">true</option>
+        <option value="false">false</option>
+      </select>
       <button disabled={!insertName} onclick={insertSetFlag}>Inserisci # set_flag</button>
     </div>
     <div class="split">

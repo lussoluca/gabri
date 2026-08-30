@@ -40,6 +40,7 @@ interface Store {
     selectedDialogue: string | null
     settingsOpen: boolean
     saveOpen: boolean
+    playOpen: boolean
   }
 }
 
@@ -55,6 +56,7 @@ export const store: Store = $state({
     selectedDialogue: null,
     settingsOpen: false,
     saveOpen: false,
+    playOpen: false,
   },
 })
 

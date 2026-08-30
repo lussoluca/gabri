@@ -66,7 +66,7 @@ export async function getBlobText(cfg: GhConfig, blobSha: string): Promise<strin
 }
 
 // Contenuto binario di un file a un ref (per le immagini di sfondo).
-export async function getFileBlobUrl(cfg: GhConfig, ref: string, path: string, mime: string): Promise<string> {
+async function getFileBytes(cfg: GhConfig, ref: string, path: string): Promise<ArrayBuffer> {
   const res = await fetch(
     `${API}/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${encodeURIComponent(ref)}`,
     {
@@ -78,8 +78,19 @@ export async function getFileBlobUrl(cfg: GhConfig, ref: string, path: string, m
     },
   )
   if (!res.ok) throw new GhError(res.status, `GitHub ${res.status}: lettura di ${path} fallita`)
-  const buf = await res.arrayBuffer()
+  return res.arrayBuffer()
+}
+
+export async function getFileBlobUrl(cfg: GhConfig, ref: string, path: string, mime: string): Promise<string> {
+  const buf = await getFileBytes(cfg, ref, path)
   return URL.createObjectURL(new Blob([buf], { type: mime }))
+}
+
+// Data URL: passa i confini di origin (es. iframe del gioco in preview),
+// a differenza dei blob URL che valgono solo nell'origin che li crea.
+export async function getFileDataUrl(cfg: GhConfig, ref: string, path: string, mime: string): Promise<string> {
+  const buf = await getFileBytes(cfg, ref, path)
+  return `data:${mime};base64,${bytesToBase64(new Uint8Array(buf))}`
 }
 
 // content: testo UTF-8 oppure dati già in base64, secondo encoding.
@@ -172,7 +183,10 @@ function decodeBase64(b64: string): string {
 }
 
 function encodeBase64(text: string): string {
-  const bytes = new TextEncoder().encode(text)
+  return bytesToBase64(new TextEncoder().encode(text))
+}
+
+function bytesToBase64(bytes: Uint8Array): string {
   let bin = ''
   const chunk = 0x8000
   for (let i = 0; i < bytes.length; i += chunk) {

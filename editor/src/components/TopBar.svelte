@@ -94,6 +94,7 @@
   {#if dirty}
     <span class="badge dirty" title="Modifiche non salvate">●</span>
   {/if}
+  <button onclick={() => (store.ui.playOpen = true)}>▶ Prova</button>
   <button class="primary" disabled={!dirty} onclick={() => (store.ui.saveOpen = true)}>
     Salva su GitHub…
   </button>

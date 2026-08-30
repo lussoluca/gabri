@@ -43,7 +43,8 @@ export class UIScene extends Phaser.Scene {
       .setOrigin(0.5, 0)
 
     this.createVerbBar()
-    this.createSaveLoadButtons()
+    // In preview (partita di prova dall'editor) non c'è backend salvataggi.
+    if (!this.registry.get('preview')) this.createSaveLoadButtons()
     this.createDialogueOverlay()
     this.refreshInventory()
     this.updateSentence()

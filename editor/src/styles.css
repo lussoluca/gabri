@@ -681,6 +681,23 @@ main.content {
   gap: 8px;
 }
 
+.play-frame {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: min(1000px, 96vw);
+  height: min(680px, 92vh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.play-frame iframe {
+  flex: 1;
+  border: none;
+  background: #000;
+}
+
 .centered-screen {
   flex: 1;
   display: flex;

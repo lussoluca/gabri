@@ -27,6 +27,11 @@
     return Object.keys(entry)[0] ?? ''
   }
 
+  // Valore mostrato nella tendina: default true finché non c'è una variabile.
+  function exprValue(expr: { name: string; value: string }): string {
+    return expr.name ? expr.value : 'true'
+  }
+
   function valueOf(entry: Record<string, string>): string {
     const key = keyOf(entry)
     return key ? entry[key] : ''
@@ -109,12 +114,17 @@
         {/if}
       </select>
       <span class="expr-op">=</span>
-      <input
+      <select
         class="expr-value"
-        list="flag-values"
-        value={expr.name ? expr.value : 'true'}
-        oninput={(e) => patchSetFlag(list, index, { value: e.currentTarget.value })}
-      />
+        value={exprValue(expr)}
+        onchange={(e) => patchSetFlag(list, index, { value: e.currentTarget.value })}
+      >
+        <option value="true">true</option>
+        <option value="false">false</option>
+        {#if exprValue(expr) !== 'true' && exprValue(expr) !== 'false'}
+          <option value={exprValue(expr)}>{exprValue(expr)}</option>
+        {/if}
+      </select>
     </div>
   {:else if key === 'flag'}
     {@const expr = parseFlagCondition(value)}
@@ -139,12 +149,17 @@
         <option value="==">è</option>
         <option value="!=">non è</option>
       </select>
-      <input
+      <select
         class="expr-value"
-        list="flag-values"
-        value={expr.name ? expr.value : 'true'}
-        oninput={(e) => patchFlagCondition(list, index, { value: e.currentTarget.value })}
-      />
+        value={exprValue(expr)}
+        onchange={(e) => patchFlagCondition(list, index, { value: e.currentTarget.value })}
+      >
+        <option value="true">true</option>
+        <option value="false">false</option>
+        {#if exprValue(expr) !== 'true' && exprValue(expr) !== 'false'}
+          <option value={exprValue(expr)}>{exprValue(expr)}</option>
+        {/if}
+      </select>
     </div>
   {:else if key === 'add_item' || key === 'remove_item' || key === 'has_item'}
     <select {value} onchange={(e) => setValue(list, index, e.currentTarget.value)}>
@@ -169,11 +184,6 @@
     </select>
   {/if}
 {/snippet}
-
-<datalist id="flag-values">
-  <option value="true"></option>
-  <option value="false"></option>
-</datalist>
 
 <h2>Regola</h2>
 

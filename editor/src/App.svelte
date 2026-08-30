@@ -5,6 +5,7 @@
   import BgEditor from './components/backgrounds/BgEditor.svelte'
   import RoomEditor from './components/rooms/RoomEditor.svelte'
   import VariablesEditor from './components/variables/VariablesEditor.svelte'
+  import PlayDialog from './components/PlayDialog.svelte'
   import SavePanel from './components/SavePanel.svelte'
   import SettingsDialog from './components/SettingsDialog.svelte'
   import StartupDialog from './components/StartupDialog.svelte'
@@ -65,4 +66,7 @@
 {/if}
 {#if store.ui.saveOpen}
   <SavePanel />
+{/if}
+{#if store.ui.playOpen && store.project}
+  <PlayDialog />
 {/if}
