@@ -4,3 +4,19 @@
     - say: La porta è chiusa
   conditions:
     - flag: supereroe != true
+- verb: talk
+  target: segreteria
+  actions:
+    - dialogue: segretario
+- verb: look
+  target: segreteria
+  actions:
+    - say: Ottimo, qua mi daranno le informazioni che mi servono!
+- verb: look
+  target: bacheca_1
+  actions:
+    - say: Oh, guarda, il supereroe di oggi è piadinaman… e chi lo conosce??
+- verb: look
+  target: bacheca_2
+  actions:
+    - say: Qua ci sono gli annunci del mese, c’è anche chi vende veicoli per supereroi
